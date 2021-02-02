@@ -35,10 +35,24 @@ namespace Mine.Services
                 initialized = true;
             }
         }
-
-        public Task<bool> CreateAsync(ItemModel item)
+        /// <summary>
+        /// Writes to the SQL table if able to.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public async Task<bool> CreateAsync(ItemModel item)
         {
-            throw new NotImplementedException();
+            if(item == null)
+            {
+                return false;
+            }
+
+            var result = await Database.InsertAsync(item);
+            if(result==0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public Task<bool> UpdateAsync(ItemModel item)
